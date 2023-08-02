@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messanger!</title>
+</head>
+<body>
+    <div class="chat-list">
+        <h1>Chat List</h1>
+        <h2>Welcome, {{ user.username }}!</h2>  <!-- Відображення ім'я поточного користувача -->
+    <ul>  
+        {% for user in users %}
+            <li><a href="{% url 'chat_detail' user.username %}">{{ user.username }}</a></li>
+        {% endfor %}
+        <button id="toggleChatList1" class="toggle-button">Показати/Приховати</button>
+    </ul>
+    
+    </div>
+    
+    <div class="card">
+        <div class="chat-header">Chat with {{ recipient.username }}</div>
+          <div class="chat-window">
+            <ul class="message-list">
+                
+              {% for message in messages %}
+            <li class="message-text">{{ message.content }}</li>
+              {% endfor %}
+            </ul>
+            
+          </div>
+
+
+          <div class="chat-input">
+            
+            <form method="post">
+              
+              {% csrf_token %}
+              
+              <input type="text" name="content" class="message-input" placeholder="Type your message here">
+              <button class="send-button">Send</button>
+          </form>
+              
+          </div>
+        </div>
+        <br>
+        <button id="toggleChatList" class="toggle-button">Показати/Приховати</button>
+        <script>
+          // Додати дію на кнопку для зміни видимості списку чатів
+          document.getElementById('toggleChatList').addEventListener('click', function () {
+              var chatList = document.querySelector('.chat-list');
+              if (chatList.style.display === 'none') {
+                  chatList.style.display = 'block';
+              } else {
+                  chatList.style.display = 'none';
+              }
+          });
+          document.getElementById('toggleChatList1').addEventListener('click', function () {
+              var chatList = document.querySelector('.chat-list');
+              if (chatList.style.display === 'none') {
+                  chatList.style.display = 'block';
+              } else {
+                  chatList.style.display = 'none';
+              }
+          });
+      </script>
+      <style>
+        /* Сховати список чатів на екранах з шириною менше 600px (для мобільних пристроїв) */
+        @media (max-width: 600px) {
+            .chat-list {
+                display: none;
+            }
+        }
+    </style>
+      <style>
+        /* Стиль для кнопки "Показати/Приховати список чатів" */
+        .toggle-button {
+            background-color: #4CAF50; /* Зелений колір фону */
+            color: white; /* Колір тексту */
+            padding: 10px 20px; /* Відступи внутрішньої області кнопки */
+            border: none; /* Видалити рамку */
+            border-radius: 4px; /* Закруглити кути */
+            cursor: pointer; /* Змінити курсор на пальце-указівник при наведенні */
+            transition: background-color 0.3s; /* Плавне перехідне зміна кольору фону при наведенні */
+        }
+
+        .toggle-button:hover {
+            background-color: #45a049; /* Змінити колір фону при наведенні */
+        }
+    </style>
+  <style>
+    
+    /* Загальні стилі для сторінки */
+body {
+    font-family: Arial, sans-serif;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+/* Стиль для кожного повідомлення */
+.message-text {
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  max-width: 60%;
+  margin-left: 10px;
+
+}
+
+/* Стиль для тексту повідомлення */
+li p {
+  margin: 0;
+  font-size: 16px;
+}
+
+/* Стиль для імені користувача та часу */
+li span {
+  color: #888;
+  font-size: 12px;
+}
+/* .message-text{
+  max-width: 100px;
+  margin: 5px;
+  padding: 5px;
+  margin-left: 10px;
+  box-shadow: 5px;
+  background-color: #0250a3;
+  border-radius: 20px;
+} */
+/* Стилі для бокової панелі зі списком чатів */
+.chat-list {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+}
+
+/* Стилі для заголовка списку чатів */
+.chat-list h1 {
+    margin: 0 0 20px;
+    font-size: 24px;
+    text-align: center;
+}
+
+/* Стилі для списку чатів */
+.chat-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.chat-list li {
+    margin-bottom: 10px;
+}
+
+.chat-list li a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 18px;
+    padding: 10px;
+    display: block;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+.chat-list li a:hover {
+    background-color: #555;
+}
+
+/* Стилі для активного чату */
+.chat-list li.active a {
+    background-color: #007bff;
+}
+
+/* Стилі для підсвічування активного чату */
+.chat-list li.active a::before {
+    content: ">";
+    margin-right: 5px;
+}
+html{
+  padding-left: 20%
+}
+    .card {
+  width: auto;
+  height: 90%;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.chat-header {
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  font-size: 18px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.chat-window {
+  height: 220px;
+  overflow-y: scroll;
+}
+
+.message-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.chat-input {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+}
+
+.message-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 5px;
+  font-size: 14px;
+}
+
+.send-button {
+  border: none;
+  outline: none;
+  background-color: #333;
+  color: #fff;
+  font-size: 14px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.send-button:hover {
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.25);
+}
+  </style>    
+</body>
+</html>
